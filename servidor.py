@@ -2,7 +2,7 @@ import socket                   # Import socket module
 
 
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-host = "192.168.0.22"
+host = "192.168.10.13"
 port = 10000
 serversocket.bind((host, port))
 
@@ -36,8 +36,12 @@ while 1:
                     text_file.write(str(nuevo))
                 bb="corr"
                 clientsocket.send(bb.encode())
+        elif str(data)=="acreditar":
+            credito = "credito"
+            clientsocket.send(credito.encode())
+            data = clientsocket.recv(1024).decode()
         else:
             sal="mal"
-            clientsocket.send(sal.encode())    
+            clientsocket.send(sal.encode()) 
     finally:
         clientsocket.close()
