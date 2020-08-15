@@ -1,29 +1,43 @@
 import socket                   # Import socket module
 
-port = 50000                    # Reserve a port for your service every new transfer wants a new port or you must wait.
-s = socket.socket()             # Create a socket object
-host = ""   # Get local machine name
-s.bind((host, port))            # Bind to the port
-s.listen(5)                     # Now wait for client connection.
+
+serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+host = "192.168.0.22"
+port = 10000
+serversocket.bind((host, port))
 
 print ('Server listening....')
 
 
-while True:
-    conn, addr = s.accept()     # Establish connection with client.
-    print ('Got connection from', addr)
-    data = conn.recv(1024)
-    print('Server received', repr(data))
-
-    filename='redes_taller1.pdf' #In the same folder or path is this file running must the file you want to tranfser to be
-    f = open(filename,'rb')
-    l = f.read(1024)
-    while (l):
-       conn.send(l)
-       print('Sent ',repr(l))
-       l = f.read(1024)
-    f.close()
-
-    print('Done sending')
-    conn.send(bytes('Thank you for connecting','utf-8'))
-    conn.close()
+serversocket.listen(5)
+print ('server started and listening')
+while 1:
+    (clientsocket, address) = serversocket.accept()
+    try:
+        f = open("saldo.txt", "r")
+        a=f.read()
+        saldo=int(a)
+        print ("connection found!")
+        r='para cosultar saldo escriba: saldo \n para debitar escriba: debitar \n para acreditar escriba: acreditar'
+        clientsocket.send(r.encode())        
+        data = clientsocket.recv(1024).decode()
+        print (data)
+        if str(data)=="saldo":
+            sal=str(saldo)
+            sal="su saldo es igual a: "+sal
+            clientsocket.send(sal.encode())
+        elif str(data)=="debitar":
+            sal="cant"
+            clientsocket.send(sal.encode())
+            data = clientsocket.recv(1024).decode()
+            if int(data)<saldo:
+                nuevo=saldo-int(data)
+                with open("saldo.txt", "w") as text_file:
+                    text_file.write(str(nuevo))
+                bb="corr"
+                clientsocket.send(bb.encode())
+        else:
+            sal="mal"
+            clientsocket.send(sal.encode())    
+    finally:
+        clientsocket.close()
