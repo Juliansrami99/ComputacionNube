@@ -35,7 +35,7 @@ try:
         sock.send(str.encode());
         resul = ''
         resul=sock.recv(1024).decode()
-        print("Nuevo saldo: ",str(resul))
+        print("Nuevo saldo: ",resul)
     else:        
         print(resultado)
 finally:
