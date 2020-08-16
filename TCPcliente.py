@@ -6,7 +6,7 @@ import sys
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # Connect the socket to the port where the server is listening
-server_address = ("192.168.0.2", 10000)
+server_address = ("34.201.174.108", 10000)
 print('connecting to {} port {}'.format(*server_address))
 sock.connect(server_address)
 
@@ -25,7 +25,9 @@ try:
         resul=''
         resul=sock.recv(1024).decode()
         if resul=='corr':
-            print("debito realizado")
+            print("OK")
+        elif resul=='incorr':
+            print("Saldo insuficiente")
     elif resultado=="credito":
         print("mencione el credito que desea aumentar a su cuenta:")
         str = input("S: ")
