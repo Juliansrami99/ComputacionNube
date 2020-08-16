@@ -47,8 +47,6 @@ while 1:
             nuevo=str(nuevo)
             with open("saldo.txt","w") as text_file:
                 text_file.write(str(nuevo))
-            respuesta = "corr"
-            clientsocket.send(respuesta.encode())
             clientsocket.send(nuevo.encode())
         else:
             sal="mal"

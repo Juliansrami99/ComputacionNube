@@ -35,9 +35,7 @@ try:
         sock.send(str.encode());
         resul = ''
         resul=sock.recv(1024).decode()
-        if resul == 'corr':
-            new_saldo = sock.recv(1024).decode()
-            print("Nuevo saldo: ",new_saldo)
+        print("Nuevo saldo: ",str(resul))
     else:        
         print(resultado)
 finally:
