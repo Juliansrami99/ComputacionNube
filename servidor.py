@@ -2,7 +2,7 @@ import socket                   # Import socket module
 
 
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-host = "34.201.174.108"
+host = socket.gethostbyaddr("34.201.174.108")[0]
 port = 10000
 serversocket.bind((host, port))
 
